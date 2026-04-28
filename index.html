@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ESPJAMMER HEADLESS — Web Flasher</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
+  <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+
+  <style>
+    :root {
+      --purple:#b44fff;
+      --purple-dim:#7a2db5;
+      --purple-glow:rgba(180,79,255,0.35);
+      --bg:#07010f;
+      --surface:#0f0520;
+      --border:#2a1040;
+      --text:#c97eff;
+      --text-dim:#7a4fa0;
+      --text-muted:#3d2060;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+
+    body{
+      background:var(--bg);
+      color:var(--text);
+      font-family:'Share Tech Mono', monospace;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:48px 20px 60px;
+    }
+
+    .container{max-width:640px;width:100%;}
+
+    .hero{text-align:center;margin-bottom:48px;}
+
+    .logo{
+      font-family:'Orbitron',sans-serif;
+      font-weight:900;
+      font-size:clamp(2.8rem,10vw,4.5rem);
+      letter-spacing:6px;
+      color:var(--purple);
+    }
+
+    .tagline{
+      font-size:0.78rem;
+      color:var(--text-dim);
+      letter-spacing:5px;
+      text-transform:uppercase;
+    }
+
+    .version-badge{
+      display:inline-block;
+      margin-top:14px;
+      padding:4px 14px;
+      border:1px solid var(--purple-dim);
+      border-radius:20px;
+      font-size:0.72rem;
+      color:var(--purple-dim);
+      letter-spacing:3px;
+    }
+
+    .card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:32px;
+      margin-bottom:20px;
+    }
+
+    .card-title{
+      font-family:'Orbitron',sans-serif;
+      font-size:0.7rem;
+      letter-spacing:4px;
+      color:var(--purple-dim);
+      text-transform:uppercase;
+      margin-bottom:24px;
+    }
+
+    .step{display:flex;gap:16px;margin-bottom:18px;}
+
+    .step-num{
+      width:28px;height:28px;
+      border-radius:6px;
+      border:1px solid var(--purple-dim);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .step-text{
+      font-size:0.85rem;
+      color:var(--text-dim);
+      line-height:1.7;
+    }
+
+    .flash-wrap{
+      margin-top:28px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+    }
+
+    esp-web-install-button::part(button){
+      background:transparent;
+      color:var(--purple);
+      font-family:'Orbitron',sans-serif;
+      font-weight:700;
+      letter-spacing:4px;
+      padding:14px 48px;
+      border:1px solid var(--purple);
+      border-radius:6px;
+      cursor:pointer;
+      transition: all 0.2s;
+    }
+
+    esp-web-install-button::part(button):hover {
+      background: rgba(180,79,255,0.1);
+      box-shadow: 0 0 20px var(--purple-glow);
+    }
+
+    .browser-note{
+      font-size:0.72rem;
+      color:var(--text-muted);
+    }
+
+    .no-serial{
+      display:none;
+      color:#ff6060;
+      font-size:0.8rem;
+      text-align:center;
+      padding:12px;
+      border:1px solid rgba(255,60,60,0.3);
+      border-radius:6px;
+    }
+
+    .warning{
+      padding:16px;
+      border:1px solid rgba(180,79,255,0.2);
+      border-radius:8px;
+      background:rgba(42,10,62,0.4);
+      font-size:0.78rem;
+      margin-bottom:20px;
+    }
+
+    footer{
+      margin-top: auto;
+      text-align:center;
+      font-size:0.72rem;
+      color:var(--text-muted);
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="hero">
+    <div class="logo">ESPJAMMER HEADLESS</div>
+    <div class="tagline">ESP32 WiFi + BLE Deauther</div>
+    <div class="version-badge">v1.0 — Web Flasher</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Flash Instructions</div>
+
+    <div class="step"><div class="step-num">1</div><div class="step-text">Use Chrome or Edge browser.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text">Connect your ESP32-WROOM via USB.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text">Click CONNECT and select your ESP32 port.</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-text">Wait for flashing to complete (~30-45 seconds).</div></div>
+
+    <div class="flash-wrap">
+      <div class="no-serial" id="noSerial">⚠ WebSerial not supported. Please use Chrome or Edge.</div>
+      <esp-web-install-button 
+        manifest="./manifest.json"
+        erase-first="true">
+      </esp-web-install-button>
+      <div class="browser-note">Chrome / Edge only • ESP32-WROOM</div>
+    </div>
+  </div>
+
+  <div class="warning">
+    ⚠ This firmware is for educational and isolated lab use only.<br>
+    Do not use on networks or devices you do not own.
+  </div>
+
+  <footer>
+    <a href="https://github.com/bra1n1ac-hack0/esp32-deauther-headless" target="_blank">GitHub Repository</a>
+  </footer>
+
+</div>
+
+<script>
+if (!('serial' in navigator)) {
+  document.getElementById('noSerial').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
